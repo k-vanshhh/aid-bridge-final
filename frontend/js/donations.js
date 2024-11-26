@@ -1,5 +1,5 @@
 // js/donations.js
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'http://localhost:5050/api';
 
 // Format date to readable string
 function formatDate(dateString) {
