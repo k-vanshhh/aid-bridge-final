@@ -1,4 +1,3 @@
-const API_BASE_URL = 'http://localhost:5050/api';
 
 // Function to handle dark mode toggle
 const toggleDarkMode = () => {
@@ -69,7 +68,7 @@ const showErrorMessage = (error) => {
   // Remove the error message after 5 seconds
   setTimeout(() => {
     errorDiv.remove();
-  }, 5050);
+  }, 3000);
 };
 
 
@@ -300,13 +299,13 @@ const fetchData = async () => {
     const token = validateToken();
     
     const [donationsResponse, queriesResponse, usersResponse] = await Promise.all([
-      axios.get(`${API_BASE_URL}/donations/`, {
+      axios.get(`/api/donations/getdonation`, {
         headers: { Authorization: `Bearer ${token}` },
       }),
-      axios.get(`${API_BASE_URL}/contact/`, {
+      axios.get(`/api/contact/`, {
         headers: { Authorization: `Bearer ${token}` },
       }),
-      axios.get(`${API_BASE_URL}/users`, {
+      axios.get(`/api/users/`, {
         headers: { Authorization: `Bearer ${token}` },
       }),
     ]);

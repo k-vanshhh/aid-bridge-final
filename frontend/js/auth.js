@@ -1,4 +1,3 @@
-//const API_URL = 'http://localhost:5050/api';
 
 // Check if user is already logged in and has access to the requested page
 function checkAuth() {
@@ -42,17 +41,17 @@ if (loginForm) {
         e.preventDefault();
         const errorDiv = document.getElementById('error-message');
         
-        try {
-            const response = await fetch(`http://localhost:5050/api/auth/login`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    email: document.getElementById('email').value,
-                    password: document.getElementById('password').value
-                })
-            });
+            try {
+                const response = await fetch(`/api/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: document.getElementById('email').value,
+                        password: document.getElementById('password').value
+                    })
+                });
 
             const data = await response.json();
             
@@ -88,7 +87,7 @@ if (registerForm) {
         const errorDiv = document.getElementById('error-message');
         
         try {
-            const response = await fetch(`http://localhost:5050/api/auth/register`, {
+            const response = await fetch(`/api/auth/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -280,7 +280,7 @@
     // Function to reset password and send the email
     const resetPassword = async (email) => {
     try {
-        const response = await axios.post('http://localhost:5050/api/auth/forgot-password', { email });
+        const response = await axios.post('http://localhost:3000/api/auth/forgot-password', { email });
         if (response.data.message === 'Password reset successfully, email sent') {
             alert('A password reset email has been sent!');
         } else {

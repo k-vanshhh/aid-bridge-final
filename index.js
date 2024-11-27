@@ -21,6 +21,9 @@ app.options('*', cors());
 
 // Middleware
 app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000' // If frontend is also on port 3000
+}));
 app.use(express.json());
 
 // Simple auth check
@@ -37,18 +40,25 @@ const checkAuth = async (req, res, next) => {
   }
 };
 
-app.use(express.static(path.join(__dirname, '/frontend')))
- 
-app.get('*', (req, res) => res.sendFile(path.join(__dirname, `${req.path}`)))
-// Routes
+
 
 
 app.use('/api/auth', require('./routes/authRoutes'));
-app.use('/api/donations', checkAuth, require('./routes/donationRoutes'));
+app.use('/api/donations', require('./routes/donationRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/contact', require('./routes/contactRoutes'));
+
+
+app.use(express.static(path.join(__dirname, '/frontend')))
+ 
+app.get('*', (req, res) => {
+  // console.log("here")
+  console.log(req.path)
+  res.sendFile(path.join(__dirname, `${req.path}`)
+)})
+// Routes
 
 const PORT = process.env.PORT || 5050;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
-});
+}); 

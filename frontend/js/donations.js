@@ -1,5 +1,4 @@
 // js/donations.js
-const API_URL = 'http://localhost:5050/api';
 
 // Format date to readable string
 function formatDate(dateString) {
@@ -42,47 +41,35 @@ function createDonationCard(donation) {
 
 // Load donations
 async function loadDonations() {
-    const token = localStorage.getItem('token');
-    // console.log(token); 
-    const donationsList = document.getElementById('donationsList');
-    const totalDonatedElement = document.querySelector('.total-donated'); // Element for total donated amount
-    const donationCountElement = document.querySelector('.donation-count'); // Element for donation count
+    // Assuming you're using fetch to make the request
 
-    try {
-        const response = await fetch(`${API_URL}/donations/my-donations`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-                
-            }
-        });
+const userId = sessionStorage.getItem(user.id); // Get the user ID from sessionStorage
+console.log(userId)
 
-        const data = await response.json();
-        
+if (userId) {
+    // Sending a POST request with userId in the body
+    fetch('/api/donations', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId }) // Send the userId in the request body
+    })
+    .then(response => response.json())
+    .then(data => {
         if (data.success) {
-            // Calculate the total amount and count of donations
-            let totalAmount = data.donations.reduce((sum, donation) => sum + donation.product.amount, 0);
-            let donationCount = data.donations.length;
-
-            // Update total donated amount
-            if (totalDonatedElement) {
-                totalDonatedElement.textContent = formatCurrency(totalAmount);
-            }
-
-            // Update donation count
-            if (donationCountElement) {
-                donationCountElement.textContent = donationCount;
-            }
-
-            // Populate donations list with the user's donations
-            donationsList.innerHTML = donationCount > 0 ? 
-                data.donations.map(createDonationCard).join('') :
-                '<p class="text-gray-500">No donations yet</p>';
+            console.log('User donations:', data.donations);
         } else {
-            donationsList.innerHTML = '<p class="text-red-500">Failed to load donations</p>';
+            console.log('Failed to fetch donations:', data.message);
         }
-    } catch (error) {
-        donationsList.innerHTML = '<p class="text-red-500">Error loading donations</p>';
-    }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+} else {
+    console.log('User not logged in, unable to fetch donations');
+}
+
 }
 
 
@@ -105,7 +92,7 @@ if (donationForm) {
         console.log("Description:", description);
         
         try {
-            const response = await fetch(`${API_URL}/donations`, {
+            const response = await fetch(`/api/donations/createdonation`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

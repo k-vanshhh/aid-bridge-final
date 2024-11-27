@@ -94,6 +94,7 @@ exports.sendPasswordResetEmail = async (req, res) => {
 };
 
 exports.register = async (req, res) => {
+  console.log("ha  mai regsiter hogya hu")
   try {
     const { name, email, password } = req.body;
     
@@ -120,6 +121,7 @@ exports.register = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
+  console.log("login access hua")
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
